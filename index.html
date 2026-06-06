@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grand Aurum Hotel & Restaurant</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand"><span>Grand</span> Aurum</div>
+      <nav class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#rooms">Rooms</a>
+        <a href="#menu">Foods</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Open menu">Menu</button>
+    </div>
+    <div class="header-actions">
+      <a href="#about" class="btn btn-secondary">About</a>
+      <a href="#contact" class="btn btn-secondary">Contact</a>
+      <a href="#menu" class="btn btn-secondary">Foods</a>
+      <a href="#rooms" class="btn btn-secondary">Rooms</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow">5-Star Restaurant Hotel</p>
+        <h1>Luxury rooms, gourmet dining, and seamless checkout.</h1>
+        <p>Welcome to Grand Aurum — where elegant stays meet exceptional food, fast billing, and convenient payment.</p>
+        <div class="hero-buttons">
+          <a href="#rooms" class="btn btn-primary">Book a Room</a>
+          <a href="#menu" class="btn btn-secondary">View Menu</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80" alt="Luxury hotel room" />
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="section-left">
+        <span class="section-label">About Us</span>
+        <h2>Comfort, cuisine, and care.</h2>
+        <p>Grand Aurum Hotel offers elegant rooms, delicious South Indian dishes, and friendly service to make every stay memorable.</p>
+      </div>
+    </section>
+
+    <section class="section rooms" id="rooms">
+      <div class="section-heading">
+        <span class="section-label">Rooms</span>
+        <h2>Our featured stays.</h2>
+        <p>Book a room with elegant décor, premium amenities, and flexible payment options. We accept Visa, Mastercard, PayPal, and Google Pay for a secure stay.</p>
+      </div>
+      <div class="room-grid">
+        <article class="room-card">
+          <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80" alt="Deluxe room" />
+          <div class="room-content">
+            <h3>Deluxe Room</h3>
+            <p>Modern room with city views and premium comforts.</p>
+            <span>₹299 / night</span>
+          </div>
+        </article>
+        <article class="room-card">
+          <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" alt="Signature suite" />
+          <div class="room-content">
+            <h3>Signature Suite</h3>
+            <p>Spacious suite with lounge seating and luxury amenities.</p>
+            <span>₹499 / night</span>
+          </div>
+        </article>
+        <article class="room-card">
+          <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80" alt="Penthouse room" />
+          <div class="room-content">
+            <h3>Penthouse Retreat</h3>
+            <p>Top-floor residence with private terrace views.</p>
+            <span>₹799 / night</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section menu" id="menu">
+      <div class="section-heading">
+        <span class="section-label">Menu</span>
+        <h2>Chef favorites with instant billing.</h2>
+        <p>Click any dish to add it to the cart and see the total bill update immediately.</p>
+      </div>
+      <div class="menu-panel">
+        <div class="menu-grid">
+          <article class="menu-card" data-id="7" data-name="Masala Dosa" data-price="120">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/43/Masala_dosa_01.jpg" alt="Masala Dosa" onerror="this.onerror=null;this.src='assets/images/masala_dosa.svg'" />
+            <div class="menu-content">
+              <h3>Masala Dosa</h3>
+              <p>Crispy rice and lentil crepe filled with spiced potato masala.</p>
+              <span>₹120</span>
+              <span class="menu-rating">⭐ 4.8</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+          <article class="menu-card" data-id="2" data-name="Chicken Rice" data-price="150">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Parboiled_rice_with_chicken%2C_peppers%2C_cucurbita%2C_peas_and_tomato.jpg" alt="Chicken Rice" onerror="this.onerror=null;this.src='assets/images/chicken_rice.svg'" />
+            <div class="menu-content">
+              <h3>Chicken Rice</h3>
+              <p>Savory chicken rice, a simple and satisfying dish.</p>
+              <span>₹150</span>
+              <span class="menu-rating">⭐ 4.6</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+          <article class="menu-card" data-id="5" data-name="Parotta (2 pcs)" data-price="50">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/ae/Parotta_2.jpg" alt="Parotta (2 pcs)" onerror="this.onerror=null;this.src='assets/images/parotta.svg'" />
+            <div class="menu-content">
+              <h3>Parotta (2 pcs)</h3>
+              <p>Two flaky parottas — perfect to pair with curries.</p>
+              <span>₹50</span>
+              <span class="menu-rating">⭐ 4.4</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+          <article class="menu-card" data-id="3" data-name="Chicken Biryani" data-price="200">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/A_home_made_plate_of_mutton_biryani_served_with_chicken_kassa_cooked_in_the_bengali_style.jpg" alt="Chicken Biryani" onerror="this.onerror=null;this.src='assets/images/chicken_biryani.svg'" />
+            <div class="menu-content">
+              <h3>Chicken Biryani</h3>
+              <p>Classic chicken biryani layered with aromatic spices.</p>
+              <span>₹200</span>
+              <span class="menu-rating">⭐ 4.8</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+          <article class="menu-card" data-id="8" data-name="Idli Sambar" data-price="80">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/Idli_Sambar-Noida-UP-SP004.jpg" alt="Idli Sambar" onerror="this.onerror=null;this.src='assets/images/idli_sambar.svg'" />
+            <div class="menu-content">
+              <h3>Idli Sambar</h3>
+              <p>Steamed rice cakes served with tangy sambar and coconut chutney.</p>
+              <span>₹80</span>
+              <span class="menu-rating">⭐ 4.6</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+          <article class="menu-card" data-id="9" data-name="Chettinad Chicken" data-price="220">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/ChickenChettinad.JPG" alt="Chettinad Chicken" onerror="this.onerror=null;this.src='assets/images/chettinad_chicken.svg'" />
+            <div class="menu-content">
+              <h3>Chettinad Chicken</h3>
+              <p>Rich, spicy Chettinad-style chicken curry with authentic spices.</p>
+              <span>₹220</span>
+              <span class="menu-rating">⭐ 4.7</span>
+            </div>
+            <button class="btn btn-secondary add-item">Add to cart</button>
+          </article>
+        </div>
+        <aside class="cart-panel">
+          <div class="cart-header">
+            <h3>Your Cart</h3>
+            <p id="cart-count">0 items</p>
+          </div>
+          <div id="cart-items" class="cart-items"></div>
+          <div class="bill-summary">
+            <div class="bill-row"><span>Subtotal</span><strong id="cart-subtotal">₹0.00</strong></div>
+            <div class="bill-row"><span>Tax (10%)</span><strong id="cart-tax">₹0.00</strong></div>
+            <div class="bill-row total"><span>Total</span><strong id="cart-total">₹0.00</strong></div>
+          </div>
+          <div class="cart-actions">
+            <button id="pay-now" class="btn btn-primary">Pay Now</button>
+            <button id="clear-cart" class="btn btn-secondary">Clear Cart</button>
+          </div>
+          <div id="payment-panel" class="payment-panel hidden">
+            <span>Scan to Pay</span>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=GrandAurum%20Payment" alt="QR code" />
+            <label for="billing-phone" class="payment-label">Phone number</label>
+            <input id="billing-phone" type="tel" placeholder="+91 98765 43210" class="payment-input" />
+            <p>Complete payment with your phone wallet.</p>
+            <p id="payment-sms-message" class="payment-sms-message"></p>
+          </div>
+          <button id="print-bill" class="btn btn-secondary btn-full">Print Bill</button>
+          <button id="generate-bill" class="btn btn-primary btn-full">Generate Bill</button>
+          <button id="download-bill" class="btn btn-secondary btn-full">Download Bill</button>
+          <div id="bill-panel" class="invoice-panel hidden">
+            <h4>Bill Preview</h4>
+            <pre id="bill-details"></pre>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="section-heading">
+        <span class="section-label">Contact</span>
+        <h2>Ready to reserve?</h2>
+        <p>Reach us by phone, email, or use the request form below.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Contact Info</h3>
+          <p>Email: ksrinath14307@gmail.com</p>
+          <p>Phone: 9363652735</p>
+          <p>Address: 123 Luxe Avenue, Downtown City</p>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <input type="text" name="name" placeholder="Your name" required />
+          <input type="email" name="email" placeholder="Your email" required />
+          <textarea name="message" placeholder="Your message" rows="5" required></textarea>
+          <button type="submit" class="btn btn-primary">Send Request</button>
+          <p class="form-response" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2026 Grand Aurum Hotel & Restaurant</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
