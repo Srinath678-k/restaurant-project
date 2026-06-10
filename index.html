@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="page-loader" class="page-loader"></div>
   <header class="site-header">
     <div class="header-inner">
       <div class="brand"><span>Grand</span> Aurum</div>
@@ -20,12 +21,15 @@
       <button class="menu-toggle" aria-label="Open menu">Menu</button>
     </div>
     <div class="header-actions">
-      <a href="#about" class="btn btn-secondary">About</a>
-      <a href="#contact" class="btn btn-secondary">Contact</a>
-      <a href="#menu" class="btn btn-secondary">Foods</a>
-      <a href="#rooms" class="btn btn-secondary">Rooms</a>
-    </div>
-  </header>
+        <span id="user-status" class="user-status hidden"></span>
+        <button id="auth-toggle" class="btn btn-secondary">Login/Register</button>
+        <button id="theme-toggle" class="btn btn-secondary">Light Mode</button>
+        <a href="#about" class="btn btn-secondary">About</a>
+        <a href="#contact" class="btn btn-secondary">Contact</a>
+        <a href="#menu" class="btn btn-secondary">Foods</a>
+        <a href="#rooms" class="btn btn-secondary">Rooms</a>
+      </div>
+    </header>
 
   <main>
     <section class="hero" id="home">
@@ -58,27 +62,30 @@
         <p>Book a room with elegant décor, premium amenities, and flexible payment options. We accept Visa, Mastercard, PayPal, and Google Pay for a secure stay.</p>
       </div>
       <div class="room-grid">
-        <article class="room-card">
+        <article class="room-card" data-type="Deluxe Room">
           <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=900&q=80" alt="Deluxe room" />
           <div class="room-content">
             <h3>Deluxe Room</h3>
             <p>Modern room with city views and premium comforts.</p>
+            <span class="room-type">Deluxe Room</span>
             <span>₹299 / night</span>
           </div>
         </article>
-        <article class="room-card">
+        <article class="room-card" data-type="Signature Suite">
           <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" alt="Signature suite" />
           <div class="room-content">
             <h3>Signature Suite</h3>
             <p>Spacious suite with lounge seating and luxury amenities.</p>
+            <span class="room-type">Signature Suite</span>
             <span>₹499 / night</span>
           </div>
         </article>
-        <article class="room-card">
+        <article class="room-card" data-type="Penthouse Retreat">
           <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=900&q=80" alt="Penthouse room" />
           <div class="room-content">
             <h3>Penthouse Retreat</h3>
             <p>Top-floor residence with private terrace views.</p>
+            <span class="room-type">Penthouse Retreat</span>
             <span>₹799 / night</span>
           </div>
         </article>
@@ -133,26 +140,6 @@
             </div>
             <button class="btn btn-secondary add-item">Add to cart</button>
           </article>
-          <article class="menu-card" data-id="8" data-name="Idli Sambar" data-price="80">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/Idli_Sambar-Noida-UP-SP004.jpg" alt="Idli Sambar" onerror="this.onerror=null;this.src='assets/images/idli_sambar.svg'" />
-            <div class="menu-content">
-              <h3>Idli Sambar</h3>
-              <p>Steamed rice cakes served with tangy sambar and coconut chutney.</p>
-              <span>₹80</span>
-              <span class="menu-rating">⭐ 4.6</span>
-            </div>
-            <button class="btn btn-secondary add-item">Add to cart</button>
-          </article>
-          <article class="menu-card" data-id="9" data-name="Chettinad Chicken" data-price="220">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c6/ChickenChettinad.JPG" alt="Chettinad Chicken" onerror="this.onerror=null;this.src='assets/images/chettinad_chicken.svg'" />
-            <div class="menu-content">
-              <h3>Chettinad Chicken</h3>
-              <p>Rich, spicy Chettinad-style chicken curry with authentic spices.</p>
-              <span>₹220</span>
-              <span class="menu-rating">⭐ 4.7</span>
-            </div>
-            <button class="btn btn-secondary add-item">Add to cart</button>
-          </article>
         </div>
         <aside class="cart-panel">
           <div class="cart-header">
@@ -186,6 +173,90 @@
           </div>
         </aside>
       </div>
+      <div class="booking-card">
+        <div class="section-heading">
+          <span class="section-label">Reserve</span>
+          <h2>Book your stay</h2>
+          <p>Reserve a room with dates, guests, and secure confirmation.</p>
+        </div>
+        <form id="booking-form" class="booking-form">
+          <div class="booking-grid">
+            <label>
+              Full name
+              <input type="text" name="bookingName" placeholder="Your full name" required />
+            </label>
+            <label>
+              Email
+              <input type="email" name="bookingEmail" placeholder="you@example.com" required />
+            </label>
+            <label>
+              Room type
+              <select name="bookingRoom" required>
+                <option value="">Select room type</option>
+                <option value="Deluxe Room">Deluxe Room</option>
+                <option value="Signature Suite">Signature Suite</option>
+                <option value="Penthouse Retreat">Penthouse Retreat</option>
+              </select>
+            </label>
+            <label>
+              Check-in date
+              <input type="date" name="bookingDate" required />
+            </label>
+            <label>
+              Nights
+              <input type="number" name="bookingNights" min="1" value="1" required />
+            </label>
+            <label>
+              Guests
+              <input type="number" name="bookingGuests" min="1" value="1" required />
+            </label>
+          </div>
+          <div class="booking-actions">
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+          </div>
+          <p id="booking-message" class="form-response"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="section reviews" id="reviews">
+      <div class="section-heading">
+        <span class="section-label">Reviews</span>
+        <h2>Guest experiences</h2>
+        <p>See what guests love about our rooms, restaurant, and service.</p>
+      </div>
+      <div class="review-grid">
+        <article class="review-card">
+          <p>"The room was beautifully decorated and the breakfast service was outstanding. I felt truly pampered from check-in to checkout."</p>
+          <div class="review-meta">
+            <div class="review-avatar">AP</div>
+            <div>
+              <strong>Ashwin Patel</strong>
+              <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </article>
+        <article class="review-card">
+          <p>"Food quality was excellent and the atmosphere in the hotel restaurant was warm and inviting. The staff made everything easy."</p>
+          <div class="review-meta">
+            <div class="review-avatar">MS</div>
+            <div>
+              <strong>Meera Singh</strong>
+              <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </article>
+        <article class="review-card">
+          <p>"Booking the room was simple, and the suite was perfect for our weekend stay. We will definitely return next season."</p>
+          <div class="review-meta">
+            <div class="review-avatar">RJ</div>
+            <div>
+              <strong>Rohan Jain</strong>
+              <div class="review-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </article>
+      </div>
     </section>
 
     <section class="section contact" id="contact">
@@ -215,6 +286,50 @@
   <footer class="site-footer">
     <p>© 2026 Grand Aurum Hotel & Restaurant</p>
   </footer>
+
+  <div id="auth-modal" class="modal-overlay hidden" aria-hidden="true">
+    <div class="auth-modal">
+      <div class="auth-header">
+        <button type="button" class="auth-tab active" data-tab="login">Login</button>
+        <button type="button" class="auth-tab" data-tab="register">Register</button>
+      </div>
+      <div class="auth-body">
+        <form id="login-form" class="auth-form">
+          <label>
+            Email
+            <input type="email" name="loginEmail" placeholder="Email address" required />
+          </label>
+          <label>
+            Password
+            <input type="password" name="loginPassword" placeholder="Password" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Login</button>
+          <p id="login-message" class="form-response"></p>
+        </form>
+        <form id="register-form" class="auth-form hidden">
+          <label>
+            Name
+            <input type="text" name="registerName" placeholder="Full name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" name="registerEmail" placeholder="Email address" required />
+          </label>
+          <label>
+            Password
+            <input type="password" name="registerPassword" placeholder="Password" required />
+          </label>
+          <label>
+            Confirm password
+            <input type="password" name="registerConfirm" placeholder="Confirm password" required />
+          </label>
+          <button type="submit" class="btn btn-primary">Create Account</button>
+          <p id="register-message" class="form-response"></p>
+        </form>
+        <button id="close-auth" class="close-modal" aria-label="Close">×</button>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>

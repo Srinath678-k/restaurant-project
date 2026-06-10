@@ -19,7 +19,24 @@ const clearCartButton = document.getElementById('clear-cart');
 const printBillButton = document.getElementById('print-bill');
 const paymentPanel = document.getElementById('payment-panel');
 
+const authToggle = document.getElementById('auth-toggle');
+const authModal = document.getElementById('auth-modal');
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const authTabs = document.querySelectorAll('.auth-tab');
+const closeAuth = document.getElementById('close-auth');
+const userStatus = document.getElementById('user-status');
+const bookingForm = document.getElementById('booking-form');
+const bookingMessage = document.getElementById('booking-message');
+const themeToggle = document.getElementById('theme-toggle');
+
 const CART_KEY = 'aurumCart';
+const USERS_KEY = 'aurumUsers';
+const AUTH_KEY = 'aurumAuth';
+const BOOKINGS_KEY = 'aurumBookings';
+const THEME_KEY = 'aurumTheme';
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let billingPhoneNumber = '';
@@ -35,6 +52,221 @@ const computeTotals = () => {
 
 const saveState = () => {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
+};
+
+const getStoredTheme = () => localStorage.getItem(THEME_KEY) || 'dark';
+const applyTheme = (theme) => {
+  const isLight = theme === 'light';
+  document.body.classList.toggle('light-theme', isLight);
+  if (themeToggle) {
+    themeToggle.textContent = isLight ? 'Dark Mode' : 'Light Mode';
+  }
+  localStorage.setItem(THEME_KEY, theme);
+};
+const toggleTheme = () => applyTheme(document.body.classList.contains('light-theme') ? 'dark' : 'light');
+
+// Loader and reveal animations
+document.addEventListener('DOMContentLoaded', () => {
+  // Add reveal class to sections and cards we want animated
+  const selectors = ['.section-heading', '.room-card', '.menu-card', '.review-card', '.booking-card'];
+  const elements = document.querySelectorAll(selectors.join(','));
+  elements.forEach((el) => el.classList.add('reveal'));
+
+  // IntersectionObserver to reveal elements
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        // optionally unobserve to improve performance
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  elements.forEach((el) => io.observe(el));
+});
+
+window.addEventListener('load', () => {
+  const loader = document.getElementById('page-loader');
+  if (!loader) return;
+  loader.classList.add('fade-out');
+  setTimeout(() => loader.remove(), 600);
+});
+
+const getStoredUsers = () => JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+const getCurrentUser = () => JSON.parse(localStorage.getItem(AUTH_KEY));
+const saveCurrentUser = (user) => localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+const clearCurrentUser = () => localStorage.removeItem(AUTH_KEY);
+const getBookings = () => JSON.parse(localStorage.getItem(BOOKINGS_KEY)) || [];
+const saveBooking = (booking) => {
+  const bookings = getBookings();
+  bookings.push(booking);
+  localStorage.setItem(BOOKINGS_KEY, JSON.stringify(bookings));
+};
+
+const updateAuthUI = () => {
+  const user = getCurrentUser();
+  if (user) {
+    authToggle.textContent = 'Logout';
+    userStatus.textContent = `Hi, ${user.name}`;
+    userStatus.classList.remove('hidden');
+  } else {
+    authToggle.textContent = 'Login/Register';
+    userStatus.classList.add('hidden');
+  }
+};
+
+const showAuthModal = () => {
+  authModal.classList.remove('hidden');
+  authModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const hideAuthModal = () => {
+  authModal.classList.add('hidden');
+  authModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+  loginForm.reset();
+  registerForm.reset();
+  document.getElementById('login-message').textContent = '';
+  document.getElementById('register-message').textContent = '';
+};
+
+const switchAuthTab = (tabName) => {
+  authTabs.forEach((tab) => {
+    const targetForm = tab.dataset.tab === 'login' ? loginForm : registerForm;
+    if (tab.dataset.tab === tabName) {
+      tab.classList.add('active');
+      targetForm.classList.remove('hidden');
+    } else {
+      tab.classList.remove('active');
+      targetForm.classList.add('hidden');
+    }
+  });
+};
+
+const showAuthError = (message, form) => {
+  const messageEl = form.querySelector('.form-response');
+  if (messageEl) {
+    messageEl.textContent = message;
+  }
+};
+
+const handleRegister = (event) => {
+  event.preventDefault();
+  const name = registerForm.registerName.value.trim();
+  const email = registerForm.registerEmail.value.trim().toLowerCase();
+  const password = registerForm.registerPassword.value;
+  const confirmPassword = registerForm.registerConfirm.value;
+  const users = getStoredUsers();
+
+  if (!name || !email || !password || !confirmPassword) {
+    showAuthError('Please fill out all registration fields.', registerForm);
+    return;
+  }
+
+  if (name.length < 3) {
+    showAuthError('Name must be at least 3 characters.', registerForm);
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    showAuthError('Enter a valid email address.', registerForm);
+    return;
+  }
+
+  if (password.length < 6) {
+    showAuthError('Password must be at least 6 characters.', registerForm);
+    return;
+  }
+
+  if (password !== confirmPassword) {
+    showAuthError('Passwords do not match.', registerForm);
+    return;
+  }
+
+  if (users[email]) {
+    showAuthError('An account with this email already exists.', registerForm);
+    return;
+  }
+
+  users[email] = { name, email, password };
+  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  saveCurrentUser({ name, email });
+  updateAuthUI();
+  showAuthError('Registration successful! Logged in now.', registerForm);
+  setTimeout(hideAuthModal, 800);
+};
+
+const handleLogin = (event) => {
+  event.preventDefault();
+  const email = loginForm.loginEmail.value.trim().toLowerCase();
+  const password = loginForm.loginPassword.value;
+  const users = getStoredUsers();
+  const account = users[email];
+
+  if (!email || !password) {
+    showAuthError('Please enter both email and password.', loginForm);
+    return;
+  }
+
+  if (!emailPattern.test(email)) {
+    showAuthError('Enter a valid email address.', loginForm);
+    return;
+  }
+
+  if (password.length < 6) {
+    showAuthError('Password must be at least 6 characters.', loginForm);
+    return;
+  }
+
+  if (!account || account.password !== password) {
+    showAuthError('Email or password is incorrect.', loginForm);
+    return;
+  }
+
+  saveCurrentUser({ name: account.name, email: account.email });
+  updateAuthUI();
+  showAuthError('Login successful! Welcome back.', loginForm);
+  setTimeout(hideAuthModal, 800);
+};
+
+const handleBooking = (event) => {
+  event.preventDefault();
+  const currentUser = getCurrentUser();
+  if (!currentUser) {
+    alert('Please login before booking a room.');
+    showAuthModal();
+    switchAuthTab('login');
+    return;
+  }
+
+  const name = bookingForm.bookingName.value.trim();
+  const email = bookingForm.bookingEmail.value.trim();
+  const roomType = bookingForm.bookingRoom.value;
+  const checkIn = bookingForm.bookingDate.value;
+  const nights = Number(bookingForm.bookingNights.value);
+  const guests = Number(bookingForm.bookingGuests.value);
+
+  if (!name || !email || !roomType || !checkIn || nights < 1 || guests < 1) {
+    bookingMessage.textContent = 'Please complete all booking fields.';
+    return;
+  }
+
+  const booking = {
+    user: currentUser.email,
+    name,
+    email,
+    roomType,
+    checkIn,
+    nights,
+    guests,
+    bookedAt: new Date().toISOString(),
+  };
+
+  saveBooking(booking);
+  bookingMessage.textContent = `Thanks ${currentUser.name}! Your ${roomType} is booked for ${checkIn} for ${nights} night${nights === 1 ? '' : 's'}.`;
+  bookingForm.reset();
 };
 
 const renderCart = () => {
@@ -118,13 +350,13 @@ const payNow = () => {
     return;
   }
   billingPhoneNumber = phone;
-  lastBillText = buildBillText(); // Save bill before clearing cart
+  lastBillText = buildBillText();
   billDetails.textContent = lastBillText;
   billPanel.classList.remove('hidden');
   paymentPanel.classList.remove('hidden');
   paymentSmsMessage.textContent = `Bill sent successfully to ${billingPhoneNumber}.`;
   alert(`Payment processed. Bill sent successfully to ${billingPhoneNumber}.`);
-  clearCart(); // Clear after generating bill
+  clearCart();
 };
 
 const buildBillText = () => {
@@ -147,7 +379,6 @@ const generateBill = () => {
     alert('Add items to your cart before generating a bill.');
     return;
   }
-  // Use last saved bill if available, otherwise generate from current cart
   const billText = lastBillText || (cart.length > 0 ? buildBillText() : null);
   if (!billText) {
     alert('No bill to generate.');
@@ -230,4 +461,33 @@ printBillButton?.addEventListener('click', printBill);
 generateBillButton?.addEventListener('click', generateBill);
 downloadBillButton?.addEventListener('click', downloadBill);
 
+authToggle?.addEventListener('click', () => {
+  const user = getCurrentUser();
+  if (user) {
+    clearCurrentUser();
+    updateAuthUI();
+    alert('You have been logged out.');
+  } else {
+    showAuthModal();
+    switchAuthTab('login');
+  }
+});
+
+authTabs.forEach((tab) => {
+  tab.addEventListener('click', () => switchAuthTab(tab.dataset.tab));
+});
+
+themeToggle?.addEventListener('click', toggleTheme);
+
+closeAuth?.addEventListener('click', hideAuthModal);
+authModal?.addEventListener('click', (event) => {
+  if (event.target === authModal) hideAuthModal();
+});
+
+loginForm?.addEventListener('submit', handleLogin);
+registerForm?.addEventListener('submit', handleRegister);
+bookingForm?.addEventListener('submit', handleBooking);
+
+updateAuthUI();
 renderCart();
+applyTheme(getStoredTheme());
